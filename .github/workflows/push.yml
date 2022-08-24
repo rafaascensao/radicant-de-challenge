@@ -11,20 +11,21 @@ permissions:
       id-token: write
       contents: read    # This is required for actions/checkout
 jobs:
-  S3PackageUpload:
+  ApplyTerraform:
     runs-on: ubuntu-latest
     steps:
       - name: Git clone the repository
         uses: actions/checkout@v3
-      - name: configure aws credentials
+      - name: Configure aws credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: arn:aws:iam::359326734832:role/github-actions
           role-session-name: samplerolesession
           aws-region: ${{ env.AWS_REGION }}
-      # Upload a file to AWS s3
-      - name:  Copy index.html to s3
-        run: |
-          touch test.txt
-          echo "Hello From github" > test.txt
-          aws s3 cp test.txt s3://${{ env.BUCKET_NAME }}/
+
+      # Apply terraform
+      - name: Terraform Apply
+        uses: dflook/terraform-apply
+        with:
+          path: infra
+          auto_approve: true
