@@ -1,8 +1,4 @@
-resource "aws_s3_bucket" "test" {
-  bucket = "rafaascensao-test-one-tf"
-
-  tags = {
-    Name        = "My bucket"
-    Environment = "Dev"
-  }
+# Create a VPC
+resource "aws_vpc" "example" {
+  cidr_block = "10.0.0.0/16"
 }
