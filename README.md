@@ -48,7 +48,7 @@ To run the tests, is as easy as running `poetry run pytest`
 When the project is running, you can visit the Swagger Documentation on http://127.0.0.1:8000/docs
 
 ## Explanation on some decisions and future improvements
-Must of the decisions were made based on the time I had for the challenge. With more time, I would probably change some things. Below, I will go over some things that with more time I would change or add.
+Most of the decisions were made based on the time I had for the challenge. With more time, I would probably change some things. Below, I will go over some things that I would change or add.
 
 ### Database
 The idea here was to run a PostgresSQL database, but that needs to run somewhere and setupping up everything (maybe in a Docker container) would require more time or even maybe hosting the DB on the cloud. Abstractedly, using PostgresSQL or SQLite is super similar since they are Relational Databases supported by most DBORM.
@@ -57,15 +57,15 @@ The idea here was to run a PostgresSQL database, but that needs to run somewhere
 The initial idea was to host the API and the DB on AWS. This would be done via Terraform, and I would create a Docker container for the API and host it via ECS and the DB would be hosted on the AWS RDS. However I didn't have the time to setup everything, and decided to run everything locally instead.
 
 ### Field Verification
-The fields, like fund_size and dominant_sector, that serve as query parameters, each one should be an enum. That way when the user queries the API with invalid field values an error would popup, instead of an empty response as it happens now.
+The fields, like fund_size and dominant_sector, that serve as query parameters, should have validation. That way when the user queries the API with invalid values, an error would popup instead of an empty response as it happens now.
 
 ### Documentation
-With more time I would like to dive deeper on the FastAPI swagger documentation and improve a bit on the response part of the documentation.
+With more time I would like to dive deeper on the FastAPI swagger documentation and improve a bit on the response part of the documentation. As of right now, it is as barebones as possible.
 
 ### Data Provided
-I created a script that cleans the DataFrame and stores the cleaned data as a table. In a production environment, this should hosted on some ETL tool, like Airflow, where we can monitor the process and raise alerts when the data is not as expected.
+I created a script that cleans the ETFs.csv file and stores the cleaned data as a table. In a production environment, this should hosted on some ETL tool, like Airflow, where we can monitor the process and raise alerts when the data is not as expected.
 
-The cleaning that I did was based a bit on intuition since I did not have the time to look deeper into the file. Mainly there were the steps:
+The cleaning that I did was based a bit on intuition since I did not have the time to look deeper into the file. Mainly there were three steps:
 * From the `fund_sector_*` columns, retrieve the highest sector and its percentage;
 * Remove all columns where the percentage of NaN is above 50%;
 * Removed some columns that seemed redundant or just added little information.
